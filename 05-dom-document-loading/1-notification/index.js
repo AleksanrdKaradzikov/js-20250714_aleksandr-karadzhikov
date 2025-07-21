@@ -1,6 +1,6 @@
-let isInDOM = false;
-
 export default class NotificationMessage {
+  static isInDOM = false;
+
   constructor(message = "", { duration = 1000, type = "success" } = {}) {
     this.message = message;
     this.duration = duration;
@@ -42,19 +42,19 @@ export default class NotificationMessage {
   }
 
   show(target = document.body) {
-    if (isInDOM) {
+    if (NotificationMessage.isInDOM) {
       return;
     }
 
     target.appendChild(this.element);
-    isInDOM = true;
+    NotificationMessage.isInDOM = true;
     this.startRemoveTimeout();
   }
 
   remove() {
     if (this.element) {
       this.element.remove();
-      isInDOM = false;
+      NotificationMessage.isInDOM = false;
     }
   }
 
