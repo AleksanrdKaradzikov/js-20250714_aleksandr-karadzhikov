@@ -26,7 +26,10 @@ export default class NotificationMessage {
   }
 
   startRemoveTimeout() {
-    setTimeout(() => this.remove(), this.duration);
+    this.timer = setTimeout(() => {
+      this.remove();
+      clearTimeout(this.timer);
+    }, this.duration);
   }
 
   msToSecondsString(ms) {
