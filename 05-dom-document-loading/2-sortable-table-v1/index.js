@@ -117,9 +117,14 @@ export default class SortableTable {
     if (!column) return;
 
     const { sortType = "string" } = column;
+    console.log("sortType: ", sortType);
     const columnElement = this.subElements.header.querySelector(
       `[data-id="${column.id}"]`
     );
+
+    Array.from(this.subElements.header.children).forEach((cell) => {
+      cell.removeAttribute("data-order");
+    });
 
     this.data = sortData(this.data, sortId, sortOrder, sortType);
 

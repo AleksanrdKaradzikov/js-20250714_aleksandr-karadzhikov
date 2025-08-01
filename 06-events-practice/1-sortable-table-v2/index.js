@@ -7,7 +7,22 @@ export default class SortableTable extends SortableTableBase {
   constructor(headersConfig, { data = [], sorted = {} } = {}) {
     super(headersConfig, data, sorted);
 
+    this.isSortLocally = true;
     this.createListeners();
+  }
+
+  sortOnServer() {}
+
+  sortOnClient(sortId, sortOrder) {
+    this.sort(sortId, sortOrder);
+  }
+
+  sortTable(sortId, sortOrder) {
+    if (this.isSortLocally) {
+      this.sortOnClient(sortId, sortOrder);
+    } else {
+      this.sortOnServer();
+    }
   }
 
   handleHeaderCellClick = (event) => {
@@ -19,12 +34,12 @@ export default class SortableTable extends SortableTableBase {
 
     const sortId = cellElement.dataset.id;
     const sortOrder = this.getSortOder(cellElement.dataset.order);
-    this.sort(sortId, sortOrder);
+    this.sortTable(sortId, sortOrder);
   };
 
   getSortOder(order) {
     if (!order) {
-      return SortableTable.ascOrder;
+      return SortableTable.descOrder;
     }
 
     return order === SortableTable.ascOrder
@@ -34,14 +49,14 @@ export default class SortableTable extends SortableTableBase {
 
   createListeners() {
     this.subElements.header.addEventListener(
-      "click",
+      "pointerdown",
       this.handleHeaderCellClick
     );
   }
 
   destroyListeners() {
     this.subElements.header.removeEventListener(
-      "click",
+      "pointerdown",
       this.handleHeaderCellClick
     );
   }
