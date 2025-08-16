@@ -117,7 +117,6 @@ export default class SortableTable {
     if (!column) return;
 
     const { sortType = "string" } = column;
-    console.log("sortType: ", sortType);
     const columnElement = this.subElements.header.querySelector(
       `[data-id="${column.id}"]`
     );
